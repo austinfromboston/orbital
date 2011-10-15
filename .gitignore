@@ -1,2 +1,6 @@
 *swp
-public
+public/*html
+!public/spec/index.html
+.DS_Store
+.rvmrc
+tags

@@ -1,0 +1,17 @@
+.canvas {
+  height: 800px;
+  width: 600px;
+  border: 1px solid grey;
+  margin: 50px;
+}
+
+@-webkit-keyframes spin {
+   from { -webkit-transform: rotateY(-180deg); }
+   to   { -webkit-transform: rotateY(900deg); }
+}
+
+.rotatable {
+  -webkit-animation: spin 10s infinite;
+  opacity:0.7;
+}
+
