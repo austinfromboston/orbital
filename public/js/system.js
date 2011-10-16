@@ -18,6 +18,8 @@ var Orbital = {
       projection.data('model', model);
       $.get(model.data('source-url'), function(data) {
         model.data('source', data);
+        var line_count = data.split("\n").length * 3;
+        Orbital.Projection.resize(projection, line_count);
       });
       projection.mouseover(function() { Orbital.Projection.show_status(model_name, model_color); });
 
@@ -30,6 +32,14 @@ var Orbital = {
       projection.dblclick(function() {
         var model_text = $($(this).data('model')).data('source');
         $(document).trigger('editor:open', {text:model_text, twice: true});
+      });
+    },
+    resize: function(projection, size) {
+      projection.css({
+        width: "" + size + "px",
+        height: "" + size + "px",
+        'border-radius': "" + (size/2) + "px",
+        'margin-top': "" + (50 - size/2) + "px"
       });
     },
     show_status: function(model_name, model_color ) {
