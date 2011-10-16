@@ -1,4 +1,5 @@
 var Orbital = {
+  messageCount: 0,
   createProjections: function(ev) {
     $sphere = $(ev.target);
     var models_density  = Math.floor($sphere.find('li').length / $('#source .model').length);
@@ -10,12 +11,25 @@ var Orbital = {
     $('li:not([title])', $sphere).css('visibility', 'hidden');
   },
 
+  fakeMessages: function() {
+    var receiver_index = Math.floor(Math.random() * 5);
+    var sender_index = Math.floor(Math.random() * 5);
+    var receiver = $('#source .model').eq(receiver_index);
+    var sender = $('#source .model').eq(sender_index);
+    var method_name = ['action', 'save', 'init', 'callOrRegressToBackButton'][Math.floor(Math.random() * 4)]
+    var method_args = [[1,2, "shoe"], ["Peter"], [{init:"blue"}], [360000]][Math.floor(Math.random() * 4)]
+    if(sender_index != receiver_index) {
+      receiver.trigger('model:message', {sender_class:sender.data('class-name'), method:method_name, arguments:method_args});
+    }
+  },
+
   Projection: {
     init: function(model, projection) {
+      projection.data('model', model);
+      model.data('projection', projection);
       var model_name = model.data('class-name');
       var model_color = model.data('color');
       projection.attr('title', model_name).css('background-color', model_color);
-      projection.data('model', model);
       $.get(model.data('source-url'), function(data) {
         model.data('source', data);
         var line_count = data.split("\n").length * 3;
@@ -83,6 +97,48 @@ $('.start, .stop', '#controls').click(function(ev) {
   $('#sphere').removeClass('paused');
   if($(ev.target).is(".stop")) {
     $('#sphere').addClass('paused');
+    // clearTimeout(Orbital.messenger);
+    clearInterval(Orbital.messenger);
+    clearInterval(Orbital.messenger2);
+  } else {
+    // Orbital.messenger = setTimeout( Orbital.fakeMessages, 3000);
+    Orbital.messenger = setInterval( Orbital.fakeMessages, 200);
+    Orbital.messenger2 = setInterval( Orbital.fakeMessages, 700);
   }
 });
 
+$('#sphere').delegate('li[title]', 'message:display', function(ev, data) {
+  var message_text = data.method + "(" + data.arguments.join(",") + ")";
+  // var message_text = '';
+  $('#sphere .container ul').append('<div class="message">'  + message_text + '</div>');
+  $message = $('#sphere .container ul').find('.message:last');
+  // var rotations_per_round = 360/2/$(this).siblings('li').length;
+  // var my_position = $(this).prevAll('#sphere li').length;
+  // var target_position = $(data.target).prevAll('#sphere li').length;
+  // var offset = (my_position - target_position) * rotations_per_round;
+  // $message.css({'-webkit-transform': "rotateY("+ offset + "deg)"});
+  // $('#controls .stop').click();
+  //
+    // @-webkit-keyframes messagePush {from { -webkit-transform: ' + $(ev.target).css('-webkit-transform') + ';} \
+    //   to { -webkit-transform: ' +  $(data.target).css('-webkit-transform') + '; }} \
+  $('#system').append(
+    // '<style type="text/css">@-webkit-keyframes messagePush' + Orbital.messageCount +' {from { -webkit-transform: rotateX(180deg); } to { -webkit-transform: rotateX(0deg); }}</style>');
+    '<style type="text/css">@-webkit-keyframes messagePush' + Orbital.messageCount + '{from { -webkit-transform: ' + $(ev.target).css('-webkit-transform') + ';} to { -webkit-transform: ' +  $(data.target).css('-webkit-transform') + '; }}</style>');
+  $message.attr('data-message-count', Orbital.messageCount);
+  $message.css({
+    '-webkit-transform': $(data.target).css('-webkit-transform'),
+    '-webkit-animation': "messagePush" + Orbital.messageCount + " 500ms linear",
+    // 'margin-top': '10px'
+  });
+  var old_message_count = Orbital.messageCount;
+  setTimeout(function() { $('#system .message[data-message-count=' + old_message_count + "]").remove(); }, 2000);
+  Orbital.messageCount++;
+});
+
+$('.model').bind('model:message', function(ev, data) {
+  var sender = $('.model[data-class-name=' + data.sender_class + ']').data('projection');
+  $.extend(data, {target:$(this).data('projection')});
+  $(sender).trigger('message:display', data);
+});
+
+$('#controls .send_message').click(Orbital.fakeMessages);

@@ -190,7 +190,7 @@ vertical-align: baseline;
 
 
 #sphere.active ul {
--webkit-animation: spinHorizontal 1s linear infinite;
+-webkit-animation: spinHorizontal 3s linear infinite;
 }
 
 #sphere.active .rotator {
