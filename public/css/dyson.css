@@ -184,3 +184,25 @@ vertical-align: baseline;
 .container li:hover {
   border: 2px solid black;
 }
+#sphere.active .rotator {
+-webkit-animation: spinVertical 5s linear infinite;
+}
+
+
+#sphere.active ul {
+-webkit-animation: spinHorizontal 1s linear infinite;
+}
+
+#sphere.active .rotator {
+-webkit-transition: -webkit-transform 500ms linear;
+-webkit-transform-style: preserve-3d;
+}
+
+#sphere.active.paused ul,
+#sphere.active.paused .rotator
+{
+    -webkit-animation-play-state:paused;
+}
+
+
+

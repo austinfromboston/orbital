@@ -76,3 +76,13 @@ $(document).bind('editor:close', function(ev) {
 $(document).bind('status:clear', function() {
   $('#status_bar').text('').css('border-bottom-color', 'transparent');
 });
+
+$('.start, .stop', '#controls').click(function(ev) {
+  $('#sphere').addClass('active');
+  $('.start, .stop', '#controls').toggle();
+  $('#sphere').removeClass('paused');
+  if($(ev.target).is(".stop")) {
+    $('#sphere').addClass('paused');
+  }
+});
+

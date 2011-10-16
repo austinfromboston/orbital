@@ -7,18 +7,23 @@ html
 
   body
     h1 Dyson
+    #controls
+      a.stop.hidden(href="#") Stop
+      a.start(href="#") Start
+        
     #system
-    #status_bar
-    a#editor-close.hidden x
-    #editor.hidden
-    #sphere
-      .container
-    ul#source.hidden
-      li.model(data-color="#008888", data-class-name="AbuseReport", data-source-url="/sources/abuse_report.rb")
-      li.model(data-color="#880088", data-class-name="Bid", data-source-url="/sources/bid.rb")
-      li.model(data-color="#888800", data-class-name="Identity", data-source-url="/sources/identity.rb")
-      li.model(data-color="#000088", data-class-name="Offer", data-source-url="/sources/offer.rb")
-      li.model(data-color="#880000", data-class-name="Person", data-source-url="/sources/person.rb")
+      #status_bar
+      a#editor-close.hidden x
+      #editor.hidden
+      #sphere
+        .rotator
+          .container
+      ul#source.hidden
+        li.model(data-color="#008888", data-class-name="AbuseReport", data-source-url="/sources/abuse_report.rb")
+        li.model(data-color="#880088", data-class-name="Bid", data-source-url="/sources/bid.rb")
+        li.model(data-color="#888800", data-class-name="Identity", data-source-url="/sources/identity.rb")
+        li.model(data-color="#000088", data-class-name="Offer", data-source-url="/sources/offer.rb")
+        li.model(data-color="#880000", data-class-name="Person", data-source-url="/sources/person.rb")
     script(src="js/vendor/jquery-1.6.4.js", type="text/javascript")
     script(src="js/dyson.js", type="text/javascript")
     script(src="js/system.js", type="text/javascript")
