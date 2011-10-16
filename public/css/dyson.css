@@ -30,7 +30,7 @@ position: absolute;
 display: block;
 background: #000;
 border: 1px solid #fff;
-opacity: 0.1;
+opacity: 0.4;
 border-radius: 50px;
 }
 
@@ -178,3 +178,9 @@ margin: 0 0 0.5em;
 vertical-align: baseline;
 }
 
+
+/* Custom CSS for orbitals */
+
+.container li:hover {
+  border: 2px solid black;
+}

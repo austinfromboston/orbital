@@ -1,0 +1,58 @@
+.hidden { display: none; }
+#status_bar {
+  height: 30px;
+  border-bottom: 3px solid transparent;
+} 
+#editor {
+  height: 500px;
+  width: 500px;
+  display: inline-block;
+}
+#sphere {
+  position: absolute;
+  left: 400px;
+  top: 100px;
+  display: inline-block;
+}
+
+@-webkit-keyframes slideRight {
+  from {
+  	left: 400px;
+  }
+  to {
+  	left: 800px;
+  }
+}
+
+@-webkit-keyframes slideLeft {
+  from {
+  	left: 800px;
+  }
+  to {
+  	left: 400px;
+  }
+}
+.editor-opening #sphere {
+  -webkit-animation: slideRight 1s linear;
+}
+.editing #sphere {
+  left: 800px;
+}
+.editor-closing #sphere {
+  -webkit-animation: slideLeft 1s linear;
+}
+.editing #editor-close {
+  display: block;
+  position: absolute;
+  left: 500px;
+  top: 100px;
+  background: black;
+  color: white;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  z-index: 20;
+  cursor: pointer;
+}

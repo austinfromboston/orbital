@@ -1,14 +1,13 @@
 $(function(){
-        console.log("nit");
 
 	var $sphere = $('#sphere'),
 		sphere = {
 			rounds: 1,
 			panels: 24,
 			panelWidth: 100,
+      spacing: 1,
 			el: $sphere.find('.container'),
 			build: function(p, r) {
-        console.log("building");
 			
 				var panels = p || this.panels,
 					rounds = r || this.rounds,
@@ -16,7 +15,7 @@ $(function(){
 					rotationPerRound = 360/2/rounds,
 					yRotation,
 					xRotation,
-					width = this.panelWidth,
+					width = this.panelWidth * this.spacing,
 					zTranslate = (width/2) / Math.tan(rotationPerPanel * Math.PI/180),
 					$container = this.el,
 					$ul,
@@ -25,7 +24,6 @@ $(function(){
 	
 				this.el.html('');	
 				for(i = 0; i < rounds; i++) {
-          console.log ("making round");
 					$ul = $('<ul>');
 					xRotation = rotationPerRound * i;
 					$ul[0].style.webkitTransform = "rotateX("+ xRotation + "deg)";
@@ -143,5 +141,6 @@ $(function(){
 		evt.preventDefault();
 		$sphere.attr('class','').addClass($(evt.target).val());
 	});
+  $sphere.trigger('dyson:complete');
 });
 
