@@ -1,6 +1,7 @@
 *swp
 public/*html
 !public/spec/index.html
+!public/jasmine
 .DS_Store
 .rvmrc
 tags

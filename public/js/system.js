@@ -1,10 +1,11 @@
 var Orbital = {
   messageCount: 0,
-  createProjections: function(ev) {
+  createProjections: function(ev, data) {
+    console.log('running createProjections', ev, data);
     $sphere = $(ev.target);
-    var models_density  = Math.floor($sphere.find('li').length / $('#source .model').length);
+    var models_density  = Math.floor($sphere.find('li').length / $('#source > .model').length);
 
-    $('#source .model').each( function(index) {
+    $('#source > .model').each( function(index) {
       var projection = $('li:not([title]):eq(' + (index * models_density) + ')', $sphere)
       Orbital.Projection.init($(this), projection);
     });
@@ -29,12 +30,9 @@ var Orbital = {
       model.data('projection', projection);
       var model_name = model.data('class-name');
       var model_color = model.data('color');
+      console.log(model.data('source'));
       projection.attr('title', model_name).css('background-color', model_color);
-      $.get(model.data('source-url'), function(data) {
-        model.data('source', data);
-        var line_count = data.split("\n").length * 3;
-        Orbital.Projection.resize(projection, line_count);
-      });
+      Orbital.Projection.resize(projection, projection.data('size') / 80);
       projection.mouseover(function() { Orbital.Projection.show_status(model_name, model_color); });
 
       projection.mouseout(function() {
@@ -63,7 +61,7 @@ var Orbital = {
 
 };
 
-$(document).bind('dyson:complete', Orbital.createProjections);
+$(document).bind('data:complete', Orbital.createProjections);
 
 
 $('#editor-close').click(function() {
